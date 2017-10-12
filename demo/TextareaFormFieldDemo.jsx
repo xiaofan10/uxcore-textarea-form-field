@@ -6,13 +6,13 @@
  * All rights reserved.
  */
 
-const Form = require('uxcore-form/build/Form');
-const Validators = require('uxcore-validator');
-const React = require('react');
-const Const = require('uxcore-const');
-const Button = require('uxcore-button');
+import Form from 'uxcore-form/build/Form';
 
-const TextAreaFormField = require('../src');
+import Validators from 'uxcore-validator';
+import React from 'react';
+import Const from 'uxcore-const';
+import Button from 'uxcore-button';
+import TextAreaFormField from '../src/TextareaFormField';
 
 const { TextAreaCount } = TextAreaFormField;
 
@@ -88,4 +88,4 @@ class Demo extends React.Component {
 }
 
 
-module.exports = Demo;
+export default Demo;

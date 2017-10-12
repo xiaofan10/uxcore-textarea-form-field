@@ -1,9 +1,12 @@
 import expect from 'expect.js';
 import React from 'react';
-import { mount } from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
 import Constants from 'uxcore-const';
 import sinon from 'sinon';
-import TextareaFormField from '../src';
+import TextareaFormField from '../src/TextareaFormField';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const Count = TextareaFormField.TextAreaCount;
 
@@ -16,9 +19,9 @@ describe('TextareaFormField', () => {
 
   it('autoTrim', () => {
     instance = mount(<TextareaFormField autoTrim standalone />);
-    instance.find('.kuma-textarea').node.value = 'test ';
+    instance.find('.kuma-textarea').instance().value = 'test ';
     instance.find('.kuma-textarea').simulate('change');
-    expect(instance.find('.kuma-textarea').node.value).to.be('test');
+    expect(instance.find('.kuma-textarea').instance().value).to.be('test');
   });
 
   // jsxmode 无默认值
@@ -60,7 +63,9 @@ describe('TextareaFormField', () => {
     sinon.spy(TextareaFormField.prototype, 'componentWillUnmount');
     instance = mount(<TextareaFormField
       detachFormField={spy}
-      attachFormField={spy} handleDataChange={spy} standalone={false}
+      attachFormField={spy}
+      handleDataChange={spy}
+      standalone={false}
     />);
     instance.unmount();
     expect(TextareaFormField.prototype.componentWillUnmount.calledOnce).to.equal(true);
@@ -70,7 +75,9 @@ describe('TextareaFormField', () => {
     const spy = sinon.spy(TextareaFormField.prototype, 'componentDidUpdate');
     instance = mount(<TextareaFormField
       mode={Constants.MODE.VIEW}
-      jsxmode={Constants.MODE.VIEW} autosize={false} standalone
+      jsxmode={Constants.MODE.VIEW}
+      autosize={false}
+      standalone
     />);
     instance.setProps({ autosize: true, mode: Constants.MODE.EDIT, jsxmode: Constants.MODE.EDIT, value: 'test' });
     expect(TextareaFormField.prototype.componentDidUpdate.callCount).to.equal(1);
@@ -81,7 +88,9 @@ describe('TextareaFormField', () => {
     const spy = sinon.spy(TextareaFormField.prototype, 'componentDidUpdate');
     instance = mount(<TextareaFormField
       mode={Constants.MODE.EDIT}
-      jsxmode={Constants.MODE.EDIT} autosize={false} standalone
+      jsxmode={Constants.MODE.EDIT}
+      autosize={false}
+      standalone
     />);
     instance.setProps({ autosize: true, mode: Constants.MODE.VIEW, jsxmode: Constants.MODE.VIEW, value: 'test' });
     expect(TextareaFormField.prototype.componentDidUpdate.callCount).to.equal(1);
